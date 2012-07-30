@@ -13,8 +13,14 @@ $page_title = "Trip Cost Calculator";
 <?php // Script number3.5 , filename calculator.php
 
 // error handling
-// ini_set('display errors',1);  // Let me learn from my mistakes!
-// error_reporting(E_ALL|E_STRICT); // Show all possible problems! 
+ini_set('display errors',1);  // Let me learn from my mistakes!
+error_reporting(E_ALL|E_STRICT); // Show all possible problems! 
+
+//  Make shorthand variables: 
+
+$distance = ($_POST['distance']);
+$gallon_price = ($_POST['gallon_price']);
+$efficiency = ($_POST['efficiency']);
 
 // Check for form submission: 
 
@@ -22,36 +28,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Minimal form validation:  
 
-if (isset($_POST['distance'], $_POST['gallon_price'], $_POST['efficiency'])  &&
-
-is_numeric($_POST['gallon_price']) &&
-
-is_numeric($_POST['efficiency']))
+// if (isset($distance, $gallon_price, $efficiency)  &&  is_numeric($gallon_price) && is_numeric($efficiency)
 
 	{
 		// Calculate the results: 
-
-		$gallons = $_POST['distance'] / $_POST['efficiency']; 
-		$dollars = $gallons * $_POST['gallon_price'];
-		$hours = $_POST['distance']/65;
-		$gallon_price = $_POST['gallon_price'];
-
+		
+		$gallons = $distance / $efficiency; 
+		$dollars = $gallons * $gallon_price;
+		$hours = $distance/65;
+		
 		// Print the results: 
-
+		
 		echo '<H1>Total estimated cost</H1>
-		<p> The total cost of driving '. $_POST['distance'] . ' miles, averaging '
-		 .  $_POST['efficiency'] . ' miles per gallon, and paying an average of $' .  
-		$_POST['gallon price'] . ' per gallon is $' . number_format($dollars, 2) . 
-		' Driving at an average of 65 miles per hour, the trip will take
-		approximately '. number_format($hours, 2) . ' hours. </p>';
-
-		}	else 	{ // Invalid submitted values. 
-
-		echo '<H1> Error!</H1> Please enter a valid distance, 
-		price per gallon, and fuel efficiency.</h1>';
-
+		<p> The total cost of driving '. $distance . ' miles, averaging ' .  $efficiency . ' miles per gallon, and paying an average of $' . $gallon_price . ' per gallon is ' . number_format($hours, 1) . ' hours.
+		</p>';
+		
+		// }	else 	{ // Invalid submitted values. 
+// 		
+// 		echo '<H1> Error!</H1> Please enter a valid distance, 
+// 		price per gallon, and fuel efficiency.</h1>';
+		
 		}
-
+		
 }
 
 // Leave the PHP section and create the form:  
