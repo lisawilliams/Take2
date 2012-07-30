@@ -41,7 +41,7 @@ is_numeric($_POST['efficiency']))
 		echo '<H1>Total estimated cost</H1>
 		<p> The total cost of driving '. $_POST['distance'] . ' miles, averaging '
 		 .  $_POST['efficiency'] . ' miles per gallon, and paying an average of $' .  
-		$_POST['gallon price'] . ' per gallon is $' . number_format($dollars, 2) . 
+		$gallon_price . ' per gallon is $' . number_format($dollars, 2) . 
 		' Driving at an average of 65 miles per hour, the trip will take
 		approximately '. number_format($hours, 2) . ' hours. </p>';
 
@@ -60,19 +60,34 @@ is_numeric($_POST['efficiency']))
 
 <form action = "calculator.php" method="post">
 
-<p>Distance (in miles):<input type "text" name="distance" /></p>
+<p>Distance (in miles):<input type "text" name="distance" 
+value="<?php if(isset($_POST['distance'])) echo $_POST['distance']; ?>"/></p>
 
 <p>Avg. price per gallon: <span class ="input">
-	<input type="radio" name="gallon_price" value ="3.00" />3.00
-	<input type="radio" name="gallon_price" value ="3.50" />3.50
-	<input type="radio" name="gallon_price" value ="4.00" />4.00
+	<input type="radio" name="gallon_price" value ="3.00" 
+	<?php if(isset($_POST['gallon_price']) && ($_POST['gallon_price']
+	 == '3.00')) echo 'checked ="checked"';?>/>3.00
+	<input type="radio" name="gallon_price" value ="3.50" 	
+	<?php if(isset($_POST['gallon_price']) && ($_POST['gallon_price']
+	 == '3.50')) echo 'checked ="checked"';?>/>3.50
+	<input type="radio" name="gallon_price" value ="4.00" 	
+	<?php if(isset($_POST['gallon_price']) && ($_POST['gallon_price']
+	 == '4.00')) echo 'checked ="checked"';?> />4.00
 	</span></p>
 	
 <p>Fuel Efficiency:<select name = "efficiency">
-	<option value = "10">Terrible</option>
-	<option value = "20">Decent</option >
-	<option value ="30">Good</option>
-	<option value = "50">Outstanding</option>
+	<option value = "10"
+	<?php if (isset($_POST['efficiency']) && ($_POST['efficiency'] == '10')) 
+	echo ' selected="selected" '; ?>>Terrible</option>
+	<option value = "20"
+	<?php if (isset($_POST['efficiency']) && ($_POST['efficiency'] == '20')) 
+	echo ' selected="selected" '; ?>>Decent</option >
+	<option value ="30"
+	<?php if (isset($_POST['efficiency']) && ($_POST['efficiency'] == '30')) 
+	echo ' selected="selected" '; ?>>Good</option>
+	<option value = "50"
+	<?php if (isset($_POST['efficiency']) && ($_POST['efficiency'] == '50')) 
+	echo ' selected="selected" '; ?>>Outstanding</option>
 	</select></p>
 	
 <p><input type ="submit" name="submit" value="Calculate" /></p>
