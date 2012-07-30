@@ -13,8 +13,45 @@ $page_title = "Trip Cost Calculator";
 <?php // Script number3.5 , filename calculator.php
 
 // error handling
-// ini_set('display errors',1);  // Let me learn from my mistakes!
-// error_reporting(E_ALL|E_STRICT); // Show all possible problems! 
+ini_set('display errors',1);  // Let me learn from my mistakes!
+error_reporting(E_ALL|E_STRICT); // Show all possible problems! 
+
+// This function creates a radio button.
+// The function takes one argument: the value. 
+// The function also makes the radio button "sticky". 
+function create_gallon_radio($value) {
+
+// Start the element:
+echo '<input type="radio" name"gallon_price" value="' . $value .'"';
+
+// Check for stickiness:
+if (isset($_POST['gallon_price']) && ($_POST['gallon_price'] == $value))
+
+	{
+		echo ' checked="checked"';
+	}
+	
+// Complete the element: 
+echo "/>$value ";
+
+} // End of create_gallon_radio() function		
+
+// This function calculates the cost of the trip. 
+// The function takes three arguments: the distance, fuel efficiency, and price per gallon. 
+// The function returns the total cost. 
+
+function calculate_trip_cost($miles, $mpg, $ppg) {
+
+// Get the number of gallons: 
+$gallons = $miles/$mpg;
+
+//Get the cost of those gallons: 
+$dollars = $gallons/$ppg;
+
+// Return the formatted cost: 
+return number_format($dollars, 2);
+
+} // End of calculate_trip_cost() function. 
 
 // Check for form submission: 
 
@@ -30,18 +67,23 @@ is_numeric($_POST['efficiency']))
 
 	{
 		// Calculate the results: 
-
-		$gallons = $_POST['distance'] / $_POST['efficiency']; 
-		$dollars = $gallons * $_POST['gallon_price'];
-		$hours = $_POST['distance']/65;
-		$gallon_price = $_POST['gallon_price'];
+		
+		$cost = calculate_trip_cost($_POST['distance'], $_POST['efficiency'], 
+				$_POST['gallon_price']);
+				
+				
+//      Old trip calculation code (before additon of calculate_trip_cost() function)
+// 		$gallons = $_POST['distance'] / $_POST['efficiency']; 
+// 		$dollars = $gallons * $_POST['gallon_price'];
+// 		$hours = $_POST['distance']/65;
+// 		$gallon_price = $_POST['gallon_price'];
 
 		// Print the results: 
 
 		echo '<H1>Total estimated cost</H1>
 		<p> The total cost of driving '. $_POST['distance'] . ' miles, averaging '
 		 .  $_POST['efficiency'] . ' miles per gallon, and paying an average of $' .  
-		$gallon_price . ' per gallon is $' . number_format($dollars, 2) . 
+		$gallon_price . ' per gallon is $' . $cost . 
 		' Driving at an average of 65 miles per hour, the trip will take
 		approximately '. number_format($hours, 2) . ' hours. </p>';
 
@@ -64,15 +106,11 @@ is_numeric($_POST['efficiency']))
 value="<?php if(isset($_POST['distance'])) echo $_POST['distance']; ?>"/></p>
 
 <p>Avg. price per gallon: <span class ="input">
-	<input type="radio" name="gallon_price" value ="3.00" 
-	<?php if(isset($_POST['gallon_price']) && ($_POST['gallon_price']
-	 == '3.00')) echo 'checked ="checked"';?>/>3.00
-	<input type="radio" name="gallon_price" value ="3.50" 	
-	<?php if(isset($_POST['gallon_price']) && ($_POST['gallon_price']
-	 == '3.50')) echo 'checked ="checked"';?>/>3.50
-	<input type="radio" name="gallon_price" value ="4.00" 	
-	<?php if(isset($_POST['gallon_price']) && ($_POST['gallon_price']
-	 == '4.00')) echo 'checked ="checked"';?> />4.00
+	<?php
+	create_gallon_radio('3.00');
+	create_gallon_radio('3.50');
+	create_gallon_radio('4.00');
+	?>
 	</span></p>
 	
 <p>Fuel Efficiency:<select name = "efficiency">

@@ -16,8 +16,19 @@ $page_title = "";
 ini_set('display errors',1);  // Let me learn from my mistakes!
 error_reporting(E_ALL|E_STRICT); // Show all possible problems! 
 
+// This function outputs HTML for adding advertisements to a web page. 
+function create_ad() {
+
+	echo '<p>This is an annoying ad!</p>';
+	
+	} // End of function definition
+
 $page_title = 'Welcome to this site!';
 include ('includes/header.html'); 
+
+// Call the function: 
+
+function create ad();
 
 ?>
 
